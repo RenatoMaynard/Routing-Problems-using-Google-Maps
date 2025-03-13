@@ -15,9 +15,8 @@ A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platfor
 4. [How It Works](#how-it-works)
 5. [Usage](#usage)
 6. [Real-Time Considerations](#real-time-considerations)
-7. [Project Structure](#project-structure)
-8. [Contributing](#contributing)
-9. [License](#license)
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
@@ -58,3 +57,67 @@ A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platfor
 
    ```bash
    git clone https://github.com/RenatoMaynard/Routing-Problems-using-Google-Maps.git  
+
+## How It Works
+
+1. Given a set of **N locations**, the goal is to find the **shortest possible route** that visits each location exactly once and returns to the starting point.  
+Since **TSP is NP-hard**, solving it exactly becomes challenging as **N** grows. However, with **Gurobi**, it's often feasible for **small to medium-sized instances (e.g., 20–30 locations)**.
+
+2. Distance Matrix via Google Maps API
+  - You provide a **list of addresses**.
+  - The script calls the **`googlemaps.Client.distance_matrix()`** with `mode='driving'`.
+  - Google returns a **pairwise distance matrix**, containing **driving distances (or times)** between all locations.
+  - This matrix forms the basis of the TSP formulation.
+3. Real Driving Path with Google Directions API
+  - Once the **optimal order of locations** is determined:
+    - Each **pair of consecutive locations** is sent to the **Google Directions API** to obtain the **actual driving path**.
+    - The response contains an **`overview_polyline`**, which encodes the path as a sequence of **latitude/longitude points**.
+    - These points are **decoded** and prepared for visualization.
+
+4. Route Visualization with Folium
+- Using [**Folium**](https://github.com/python-visualization/folium), the script:
+    - Plots the **decoded polylines** on a map.
+    - Ensures the route **follows actual roads**, not straight lines between locations.
+    - Creates an **interactive map**, visually displaying the optimal route as a **red path**, overlaid on real-world geography.
+ 
+## Usage
+
+1. Configure your addresses
+   -Edit the list of addresses or coordinates you want to solve for.
+2. Run the Code
+3. The script will:
+   1. Call the Distance Matrix API to build your distance matrix.
+   2. Solve the TSP using Gurobi
+   3. Call the Directions API for each leg of the optimal route.
+   4. Create a Folium map with markers and real driving polylines.
+   5. Save the map to tsp_route.html.
+4. **Open** tsp_route.html to see the route
+
+## Real-Time Considerations
+Google’s Distance Matrix API can handle real-time traffic if you specify additional parameters:
+  -For instance, you can set departure_time to now or a specific timestamp to factor live or 
+ predictive traffic data.
+  - You could also switch from distance to duration_in_traffic if you want the actual time with 
+  traffic.
+In google_api_utils.py, you might do:
+```bash
+gmaps.distance_matrix(
+  origins=addresses,
+  destinations=addresses,
+  mode='driving',
+  departure_time='now',  # or a UNIX timestamp
+  traffic_model='best_guess'
+)
+```
+**NOTE:** In order to use the real-time traffic-based durations you must have a Google Maps Plataform Premium plan or pay for it. 
+
+## Contributing
+Feel free to open issues or create pull requests:
+  1. Fork the repository.
+  2. Create a new branch.
+  3. Commit changes.
+  4. Push to the branch.
+  5. Create a Pull Request.
+
+## License
+This project is open-sourced under the MIT license.
