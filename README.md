@@ -1,6 +1,6 @@
-# My TSP Project
+# Routing Problems using Google Maps
 
-A **Traveling Salesman Problem** (TSP) solver in Python, integrated with the **Google Maps Platform** to:
+A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platform** to:
 
 1. **Obtain real-world driving distances** using the **Distance Matrix API**.
 2. **Geocode** addresses into latitude/longitude (Geocoding API).
