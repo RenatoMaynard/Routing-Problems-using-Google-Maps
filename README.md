@@ -1,10 +1,10 @@
 # Routing Problems using Google Maps
 
-A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platform** to:
+A **Traveling Salesman Problem** (TSP) and **Vehicle Routing Problem** (VRP) integrated with the **Google Maps Platform** to:
 
 1. **Obtain real-world driving distances** using the **Distance Matrix API**.
 2. **Geocode** addresses into latitude/longitude (Geocoding API).
-3. **Solve** the TSP using Gurobi.
+3. **Solve** the TSP/VRP using Gurobi.
 4. **Display** the route on a map with **actual driving paths** (via the **Directions API**), using the [Folium](https://github.com/python-visualization/folium) library.
 
 ## Table of Contents
@@ -22,7 +22,7 @@ A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platfor
 
 ## Features
 
-- **Gurobi TSP Solver**  
+- **Gurobi TSP/VRP Solver**  
   Uses binary decision variables for each possible route between locations, plus Miller–Tucker–Zemlin (MTZ) constraints for subtour elimination.
 - **Real Road Distances**  
   Fetches pairwise distances from the **Google Distance Matrix API** to accurately reflect real-world driving distance or time (depending on your choice).
@@ -60,8 +60,7 @@ A **Traveling Salesman Problem** (TSP) integrated with the **Google Maps Platfor
 
 ## How It Works
 
-1. Given a set of **N locations**, the goal is to find the **shortest possible route** that visits each location exactly once and returns to the starting point.  
-Since **TSP is NP-hard**, solving it exactly becomes challenging as **N** grows. However, with **Gurobi**, it's often feasible for **small to medium-sized instances (e.g., 20–30 locations)**.
+1. Given a set of **N locations**, the goal is to find the **shortest possible route** that visits each location exactly once and returns to the starting point. 
 
 2. Distance Matrix via Google Maps API
   - You provide a **list of addresses**.
@@ -87,11 +86,11 @@ Since **TSP is NP-hard**, solving it exactly becomes challenging as **N** grows.
 2. Run the Code
 3. The script will:
    1. Call the Distance Matrix API to build your distance matrix.
-   2. Solve the TSP using Gurobi
+   2. Solve the TSP/VRP using Gurobi
    3. Call the Directions API for each leg of the optimal route.
    4. Create a Folium map with markers and real driving polylines.
-   5. Save the map to tsp_route.html.
-4. **Open** tsp_route.html to see the route
+   5. Save the map to tsp_route.html/vrp_route.html.
+4. **Open** tsp_route.html/vrp_route.html to see the route
 
 ## Real-Time Considerations
 Google’s Distance Matrix API can handle real-time traffic if you specify additional parameters:
